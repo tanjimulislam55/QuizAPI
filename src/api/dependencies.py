@@ -23,7 +23,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Could not validate credentials",
         )
-    return await user.get_one_by_email(email=token_data.sub)
+    return await user.get_one_by_username(username=token_data.sub)
 
 
 def get_current_active_superuser(

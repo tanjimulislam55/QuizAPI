@@ -81,7 +81,7 @@ async def create_new_user(user_in: UserCreate):
 
 @router.post("/sign_in", response_model=Token, status_code=status.HTTP_200_OK)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user_info = await user.get_one_by_email(email=form_data.username)
+    user_info = await user.get_one_by_username(form_data.username)
     if not user_info or not verify_password(form_data.password, user_info.password):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
