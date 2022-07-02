@@ -3,7 +3,7 @@ from sqlalchemy.orm import declarative_base
 from pydantic import BaseModel
 from sqlalchemy.sql import select, delete, update, insert
 
-from ..utils.db import database
+from utils.db import database
 
 Base = declarative_base()
 

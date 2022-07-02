@@ -5,9 +5,9 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 import uvicorn
 
-from .settings import settings
-from .utils.db import database
-from .api.api_v1.routers import api_router
+from settings import settings
+from utils.db import database
+from api.api_v1.routers import api_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,

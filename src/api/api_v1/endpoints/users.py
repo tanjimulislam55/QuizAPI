@@ -4,12 +4,13 @@ from fastapi.exceptions import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 
-from ....schemas import UserOut, UserCreate, UserInDB, Token, UserUpdate
-from ....models import User
+from schemas.users import UserOut, UserCreate, UserInDB, UserUpdate
+from schemas.token import Token
+from models import User
 from ...dependencies import get_current_active_superuser, get_current_user
-from ....crud.users import user
-from ....settings import settings
-from ....utils.auth import create_access_token, verify_password, get_password_hash
+from crud.users import user
+from settings import settings
+from utils.auth import create_access_token, verify_password, get_password_hash
 
 router = APIRouter()
 

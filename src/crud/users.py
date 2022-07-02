@@ -1,10 +1,10 @@
 from typing import Optional
 from sqlalchemy import select
 
-from ..schemas.users import UserCreate, UserUpdate
-from ..models import User
+from schemas.users import UserCreate, UserUpdate
+from models import User
 from .base import CRUDBase
-from ..utils.db import database
+from utils.db import database
 
 
 class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
