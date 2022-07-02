@@ -5,13 +5,7 @@ from typing import Optional
 
 class UserBase(BaseModel):
     username: str
-    first_name: str
-    last_name: str
     email: EmailStr
-    phone: constr(
-        min_length=11, max_length=14, regex=r"(\+880)?[0-9]{11}"  # noqa: F722
-    )
-    birth_date: Optional[str]
 
 
 class UserCreate(UserBase):
@@ -19,13 +13,7 @@ class UserCreate(UserBase):
 
 
 class UserUpdate(BaseModel):
-    first_name: Optional[str]
-    last_name: Optional[str]
     email: Optional[EmailStr]
-    birth_date: Optional[str]
-    phone: Optional[
-        constr(min_length=11, max_length=14, regex=r"(\+880)?[0-9]{11}")  # noqa: F722
-    ]
     password: Optional[str]
 
 
@@ -34,7 +22,6 @@ class UserOut(UserBase):
 
     class Config:
         orm_mode = True
-        # arbitrary_types_allowed = True
 
 
 class UserInDB(UserBase):
