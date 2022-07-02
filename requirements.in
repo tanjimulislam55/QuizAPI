@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+ujson
+databases
+asyncpg
+SQLAlchemy
+alembic
+python-jose
+passlib
+python-multipart
+python-dotenv
+black
+flake8
+aiofiles
+email-validator
