@@ -64,7 +64,7 @@ async def create_new_questions(
         "id": new_generated_question_id,
         **question_dict,
         "options": [
-            OptionOut(**option_dict, id=idx)
+            OptionOut(**option_dict, id=(idx + 1))
             for idx, option_dict in enumerate(list_of_option_dict)
         ],
     }
