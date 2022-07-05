@@ -5,11 +5,10 @@ from fastapi.exceptions import HTTPException
 from schemas.quizes import (
     QuestionCreate,
     QuestionInDB,
-    QuestionOut,
     OptionInDB,
     OptionOut,
     AnswerCreate,
-    OptionAnswerOut,
+    SubmitAnswer,
 )
 from models import User
 from ...dependencies import get_current_user, get_current_active_superuser
@@ -45,6 +44,10 @@ async def create_new_questions(
     question_in: QuestionCreate,
     current_user: User = Depends(get_current_active_superuser),
 ):
+    """
+    Only superuser can
+    create questions
+    """
     question_dict = question_in.dict(exclude={"options"})
     list_of_option_dict = [option.dict() for option in question_in.options]
     new_generated_question_id = await question.create(QuestionInDB(**question_dict))
@@ -67,4 +70,45 @@ async def create_new_questions(
     }
 
 
-# @router.post("/")
+@router.post("/answer", status_code=status.HTTP_200_OK)
+async def submit_answers(
+    submission: List[SubmitAnswer],
+    current_user: User = Depends(get_current_active_superuser),
+):
+    correct_count = 0
+    incorrect_count = 0
+    marks = 0
+    data = []
+    for ans in submission:
+        opt = await option.get_one(ans.option_id)
+        ques = await question.get_one(ans.question_id)
+        if opt.is_correct_option == True and opt.question_id == ans.question_id:
+            body = {
+                "is_right": True,
+                "user_id": current_user.id,
+                "question_id": ans.question_id,
+                "option_id": ans.option_id,
+            }
+            id = await answer.create(AnswerCreate(**body))
+            body.update({"id": id})
+            data.append(body)
+            correct_count += 1
+            marks += ques.quiz_amount
+        elif opt.is_correct_option == False:
+            body = {
+                "is_right": False,
+                "user_id": current_user.id,
+                "question_id": ans.question_id,
+                "option_id": ans.option_id,
+            }
+            id = await answer.create(AnswerCreate(**body))
+            body.update({"id": id})
+            data.append(body)
+            incorrect_count += 1
+            marks -= ques.quiz_amount
+    return {
+        "submission_data": data,
+        "correct_count": correct_count,
+        "incorrect_count": incorrect_count,
+        "marks_obtained": marks,
+    }

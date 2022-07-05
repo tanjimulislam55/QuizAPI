@@ -41,7 +41,7 @@ class CRUDOption(CRUDBase[Option, OptionCreate, None]):
         return await database.fetch_all(query)
 
 
-class CRUDAnswer(CRUDBase[QuestionAnswer, QuestionAnswer, None]):
+class CRUDAnswer(CRUDBase[QuestionAnswer, AnswerCreate, None]):
     pass
 
 

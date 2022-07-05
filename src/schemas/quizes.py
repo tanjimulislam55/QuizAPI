@@ -29,6 +29,11 @@ class AnswerCreate(BaseModel):
     option_id: int
 
 
+class SubmitAnswer(BaseModel):
+    question_id: int
+    option_id: int
+
+
 class QuestionOut(QuestionCreate):
     id: int
 
@@ -44,7 +49,7 @@ class OptionOut(BaseModel):
         orm_mode = True
 
 
-class OptionAnswerOut(AnswerCreate):
+class AnswerOut(AnswerCreate):
     id: int
 
     class Config:
