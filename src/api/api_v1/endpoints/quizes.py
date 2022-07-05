@@ -20,7 +20,6 @@ router = APIRouter()
 
 @router.get(
     "/",
-    # response_model=List[QuestionOut],
     status_code=status.HTTP_200_OK,
 )
 async def get_multiple_questions(
@@ -31,7 +30,14 @@ async def get_multiple_questions(
     quiz_amount: int = None,
     current_user: User = Depends(get_current_user),
 ):
-    return await question.get_many(skip, limit, type_, category, quiz_amount)
+    questions = await question.get_many(skip, limit, type_, category, quiz_amount)
+    question_set = []
+    for idx, ques in enumerate(questions):
+        question_set.append({"id": ques.id, "question": ques.question, "options": []})
+        options = await option.get_many(skip, limit, ques.id)
+        for opt in options:
+            question_set[idx]["options"].append(OptionOut(**opt))
+    return question_set
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)

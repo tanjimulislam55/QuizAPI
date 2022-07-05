@@ -23,7 +23,7 @@ class Question(BaseModel):
     category = Column(String(20))
     type_ = Column(String(20))
 
-    options = relationship("Option", back_populates="question", lazy="joined")
+    options = relationship("Option", back_populates="question")
     question_answers = relationship("QuestionAnswer", back_populates="question")
 
 

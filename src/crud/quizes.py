@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 from sqlalchemy import select, or_
 
 from schemas.quizes import QuestionCreate, AnswerCreate, OptionCreate
@@ -20,8 +20,6 @@ class CRUDQuestion(CRUDBase[Question, QuestionCreate, None]):
                     Question.quiz_amount == quiz_amount,
                 )
             )
-            .join(Option)
-            .where(Question.id == Option.question_id)
             .offset(skip)
             .limit(limit)
         )
@@ -29,7 +27,18 @@ class CRUDQuestion(CRUDBase[Question, QuestionCreate, None]):
 
 
 class CRUDOption(CRUDBase[Option, OptionCreate, None]):
-    pass
+    async def get_many(
+        self, skip: int, limit: int, question_id: Union[int, None]
+    ) -> Optional[Question]:
+        if not question_id:
+            return await super().get_many(skip, limit)
+        query = (
+            select(Option)
+            .where(Option.question_id == question_id)
+            .offset(skip)
+            .limit(limit)
+        )
+        return await database.fetch_all(query)
 
 
 class CRUDAnswer(CRUDBase[QuestionAnswer, QuestionAnswer, None]):

@@ -36,8 +36,9 @@ class QuestionOut(QuestionCreate):
         orm_mode = True
 
 
-class OptionOut(OptionInDB):
+class OptionOut(BaseModel):
     id: int
+    option: str
 
     class Config:
         orm_mode = True
