@@ -2,7 +2,7 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, status
 from fastapi.exceptions import HTTPException
 
-from schemas.quizes import (
+from ....schemas.quizes import (
     QuestionCreate,
     QuestionInDB,
     OptionInDB,
@@ -10,9 +10,9 @@ from schemas.quizes import (
     AnswerCreate,
     SubmitAnswer,
 )
-from models import User
+from ....models import User
 from ...dependencies import get_current_user, get_current_active_superuser
-from crud.quizes import question, option, answer
+from ....crud.quizes import question, option, answer
 
 router = APIRouter()
 

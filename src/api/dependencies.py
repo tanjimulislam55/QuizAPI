@@ -4,10 +4,10 @@ from fastapi.security import OAuth2PasswordBearer
 from pydantic import ValidationError
 from jose import jwt
 
-from schemas.token import TokenPayload
-from models import User
-from settings import settings
-from crud.users import user
+from ..schemas.token import TokenPayload
+from ..models import User
+from ..settings import settings
+from ..crud.users import user
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/users/sign_in")
 

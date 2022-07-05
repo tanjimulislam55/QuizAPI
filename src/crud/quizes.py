@@ -1,10 +1,10 @@
 from typing import Optional, Union
 from sqlalchemy import select, or_
 
-from schemas.quizes import QuestionCreate, AnswerCreate, OptionCreate
-from models import Question, Option, QuestionAnswer
+from ..schemas.quizes import QuestionCreate, AnswerCreate, OptionCreate
+from ..models import Question, Option, QuestionAnswer
 from .base import CRUDBase
-from utils.db import database
+from ..utils.db import database
 
 
 class CRUDQuestion(CRUDBase[Question, QuestionCreate, None]):
